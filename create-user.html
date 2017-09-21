@@ -1,0 +1,86 @@
+<md-dialog aria-label="Add User">
+    <form name="userForm" ng-submit="createUser(userForm);" ng-cloak novalidate>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <h2 align="center" class="md-headline">Add New User</h2>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>First Name</label>
+                        <input type="text" ng-model="user.firstName" name="firstName" required/>
+                        <div ng-messages="userForm.firstName.$error">
+                            <div ng-message="required">First name is required.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Last Name</label>
+                        <input type="text" ng-model="user.lastName" name="lastName" required/>
+                        <div ng-messages="userForm.lastName.$error">
+                            <div ng-message="required">Last name is required.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Username</label>
+                        <input type="text" ng-model="user.userName" name="userName" ng-minlength="6" required/>
+                        <div ng-messages="userForm.userName.$error">
+                            <div ng-message="required">Username is required.</div>
+                            <div ng-message="minlength">Username must be more than 5 characters.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Email</label>
+                        <input type="email" ng-model="user.email" name="email" ng-pattern="/^.+@.+\..+$/" required/>
+                        <div ng-messages="userForm.email.$error">
+                            <div ng-message="pattern">Invalid email address.</div>
+                            <div ng-message="required">Email address is required.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm="50">
+                        <label>User Type</label>
+                        <md-select ng-model="user.userTypeId" name="userTypeId" required>
+                            <md-option ng-value="type.id" ng-repeat="type in $storage.libraries.userTypes">{{type.name}}</md-option>
+                        </md-select>
+                        <div ng-messages="userForm.userTypeId.$error">
+                            <div ng-message="required">User type is required.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row" ng-if="!user.id">
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Password</label>
+                        <input type="password" ng-model="user.password" name="password" ng-required="!user.id" ng-minlength="5"/>
+                        <div ng-messages="userForm.password.$error">
+                            <div ng-message="required">Password is required.</div>
+                            <div ng-message="minlength">Password must be more than 5 characters.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Confirm Password</label>
+                        <input type="password" ng-model="retype_password" name="retype_password" ng-pattern="{{user.password}}" ng-required="!user.id"/>
+                        <div ng-messages="userForm.retype_password.$error">
+                            <div ng-message="required">Password is required.</div>
+                            <div ng-message="pattern">Password mismatch.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button class="md-large md-warn text-normal" ng-click="delete()" ng-if="user.id">
+                <md-icon>delete_forever</md-icon> Delete
+            </md-button>
+            <span flex></span>
+            <md-button class="md-large text-normal underline padded" ng-click="close()">Cancel</md-button>
+            <md-button class="md-raised md-large md-primary padded" type="submit">SUBMIT</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>
